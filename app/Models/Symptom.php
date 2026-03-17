@@ -6,5 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Symptom extends Model
 {
-    //
+    protected $fillable = [
+        'name',
+        'severity',
+        'description',
+        'note'
+    ];
 }
