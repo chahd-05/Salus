@@ -12,4 +12,8 @@ class Symptom extends Model
         'description',
         'note'
     ];
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 }
