@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSymptomRequest;
-use Illuminate\Http\Request;
+use App\Models\Symptom;
 use App\Traits\ApiResponse;
+use Illuminate\Http\Request;
 
 class SymptomController extends Controller
 {
@@ -15,7 +16,8 @@ class SymptomController extends Controller
      */
     public function index()
     {
-        //
+        $symptoms = auth()->user()->symptoms;
+        return $this->success($symptoms, "list of symptoms");
     }
 
     /**
@@ -23,7 +25,17 @@ class SymptomController extends Controller
      */
     public function store(StoreSymptomRequest $request)
     {
-        //
+
+        $sypmtom = Symptom::create([
+            'user_id' => auth()->id(),
+            'name' => $request->name,
+            'severity' => $request->severity,
+            'description' => $request->description,
+            'note' => $request->note,
+            'dateRecorded' => $request->dateRecorded
+        ]);
+
+        return $this->success($sypmtom, "symptom added");
     }
 
     /**
@@ -31,15 +43,27 @@ class SymptomController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $symptom = Symptom::find($id);
+        
+        if(!$symptom){
+            return $this->error(null, "symptom not found");
+        }
+        return $this->success($symptom, "symptom details");
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StoreSymptomRequest $request, string $id)
     {
-        //
+        $symptom = Symptom::find($id);
+
+        if(!$symptom){
+            return $this->error(null, "symptom not found");
+        }
+        $symptom->update($request->validated());
+
+        return $this->success($symptom, "symptom updated");
     }
 
     /**
@@ -47,6 +71,11 @@ class SymptomController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $symptom = Symptom::find($id);
+        if(!$symptom){
+            return $this->error(null, "symptom not found");
+        }
+        $symptom->delete();
+        return $this->success(null, "symptom deleted");
     }
 }
