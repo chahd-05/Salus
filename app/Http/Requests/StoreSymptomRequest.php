@@ -12,7 +12,7 @@ class StoreSymptomRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,7 +26,7 @@ class StoreSymptomRequest extends FormRequest
             'name' => 'required|string|max:255',
             'severity' => 'required|in:mild,moderate, severe',
             'description' => 'nullable|string',
-            'dateRecorde' => 'required|date',
+            'dateRecorded' => 'required|date',
             'note' => 'nullable|string'
         ];
     }
