@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('symptoms', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->string('name')->nullable();
+            $table->string('name');
             $table->enum('severity', ['mild', 'moderate', 'sever']);
             $table->text('description')->nullable();
             $table->text('note');
+            $table->date('dateRecorded');
             $table->timestamps();
         });
     }
