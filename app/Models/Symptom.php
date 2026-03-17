@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Symptom extends Model
 {
     protected $fillable = [
+        'user_id',
         'name',
         'severity',
         'description',
-        'note'
+        'note',
+        'dateRecorded'
     ];
 
     public function user() {
