@@ -7,6 +7,7 @@ use App\Http\Requests\StoreSymptomRequest;
 use App\Models\Symptom;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class SymptomController extends Controller
 {
@@ -77,5 +78,29 @@ class SymptomController extends Controller
         }
         $symptom->delete();
         return $this->success(null, "symptom deleted");
+    }
+
+    public function ai() {
+
+            $respond = Http::withHeaders([
+                'Content-Type' => 'application/json',
+            ])->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=AIzaSyDf2ME3AIxoNuU_aMbKTm5wHMqiFUyZUhY", [
+                "contents" => [
+                    [
+                        "parts" => [
+                            [
+                                "text" => 'the president of germany in one sentence'
+                            ]
+                        ]
+                    ]
+                ]
+            ]);
+            if($respond->successful()){
+                $output = $respond->json()['candidates'][0]['content']['parts'][0]['text'];
+            }
+            else{
+                $output = 'error';
+        }
+        return $this->success($output);
     }
 }
