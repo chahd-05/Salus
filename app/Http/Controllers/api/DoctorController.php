@@ -16,7 +16,7 @@ class DoctorController extends Controller
         return $this->success($doctors, "doctors list");
     }
 
-    public function show() {
+    public function show($id) {
         $doctor = Doctor::find($id);
         if(!$doctor){
             return $this->error(null, "doctor not found");
