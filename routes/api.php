@@ -24,3 +24,5 @@ Route::apiResource('appointments', AppointmentController::class);
 Route::get('/doctors', [DoctorController::class, 'index']);
 Route::get('/doctors/{id}', [DoctorController::class, 'show']);
 Route::get('/doctors/search', [DoctorController::class, 'search']);
+
+Route::get('/AiAssistant', [SymptomController::class, 'ai']);
