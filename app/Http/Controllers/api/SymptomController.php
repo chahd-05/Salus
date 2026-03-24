@@ -84,12 +84,12 @@ class SymptomController extends Controller
 
             $respond = Http::withHeaders([
                 'Content-Type' => 'application/json',
-            ])->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=AIzaSyDf2ME3AIxoNuU_aMbKTm5wHMqiFUyZUhY", [
+            ])->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key= " . env('GEMINI_API_KEY'), [
                 "contents" => [
                     [
                         "parts" => [
                             [
-                                "text" => 'the president of germany in one sentence'
+                                "text" => 'Syndrome de stockholm arabic in 3 sentence'
                             ]
                         ]
                     ]
