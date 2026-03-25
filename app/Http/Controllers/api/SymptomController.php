@@ -81,6 +81,7 @@ class SymptomController extends Controller
     }
 
     public function ai() {
+            $symptom = auth()->user()->symptoms()->latest()->first();
 
             $respond = Http::withHeaders([
                 'Content-Type' => 'application/json',
@@ -89,7 +90,7 @@ class SymptomController extends Controller
                     [
                         "parts" => [
                             [
-                                "text" => 'Syndrome de stockholm arabic in 3 sentence'
+                                "text" => $symptom . "what should i do to lower the pain just an advice 1 sentence"
                             ]
                         ]
                     ]
@@ -101,6 +102,10 @@ class SymptomController extends Controller
             else{
                 $output = 'error';
         }
-        return $this->success($output);
+        return response()->json([
+            'success' => true,
+            'symptom' => $symptom,
+            'response' => $output
+        ]);
     }
 }
