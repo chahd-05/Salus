@@ -21,8 +21,8 @@ Route::apiResource('symptoms', SymptomController::class);
 Route::apiResource('appointments', AppointmentController::class);
 });
 
-Route::get('/doctors', [DoctorController::class, 'index']);
-Route::get('/doctors/{id}', [DoctorController::class, 'show']);
-Route::get('/doctors/search', [DoctorController::class, 'search']);
+Route::get('/doctors', [DoctorController::class, 'index'])->middleware('auth:sanctum');
+Route::get('/doctors/search', [DoctorController::class, 'search'])->middleware('auth:sanctum');
+Route::get('/doctors/{id}', [DoctorController::class, 'show'])->middleware('auth:sanctum');
 
-Route::get('/AiAssistant', [SymptomController::class, 'ai']);
+Route::get('/AiAssistant', [SymptomController::class, 'ai'])->middleware('auth:sanctum');
