@@ -17,6 +17,7 @@ class DoctorController extends Controller
     }
 
     public function show($id) {
+        return 'hi';
         $doctor = Doctor::find($id);
         if(!$doctor){
             return $this->error(null, "doctor not found");
@@ -27,11 +28,11 @@ class DoctorController extends Controller
     public function search(Request $request){
         $query = Doctor::query();
 
-        if($request->has('specialty')){
+        if($request->specialty){
             $query->where('specialty', 'like', '%' .$request->specialty. '%');
         }
 
-        if($request->has('city')){
+        if($request->city){
             $query->where('city', 'like', '%' .$request->city .'%');
         }
         $doctors = $query->get();
