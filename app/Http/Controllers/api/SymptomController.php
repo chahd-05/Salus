@@ -8,6 +8,7 @@ use App\Models\Symptom;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use OpenApi\Attributes as OA;
 
 class SymptomController extends Controller
 {
@@ -15,6 +16,19 @@ class SymptomController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    #[OA\Get(
+        path: '/symptoms',
+        summary: 'Get all symptoms for the authenticated user',
+        security: [['sanctum' => []]],
+        tags: ['Symptoms'],
+        responses: [
+            new OA\Response(response: 200, description: 'List of user symptoms'),
+            new OA\Response(response: 401, description: 'Unauthenticated'),
+            new OA\Response(response: 404, description: 'Symptoms not found'),
+        ]
+    )]
+
     public function index()
     {
         $symptoms = auth()->user()->symptoms;
@@ -24,6 +38,39 @@ class SymptomController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
+     #[OA\Post(
+        path: '/symptoms',
+        summary: 'Create a new symptom',
+        security: [['sanctum' => []]],
+        tags: ['Symptoms'],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ['name', 'severity', 'date_recorded'],
+                properties: [
+                    new OA\Property(property: 'name', type: 'string', example: 'itches'),
+                    new OA\Property(property: 'severity', type: 'string', enum:['mild', 'moderate', 'severe'], example: 'mild'),
+                    new OA\Property(property: 'description', type: 'string', example: '.....'),
+                    new OA\Property(property: 'date_recorded', type: 'string', format:'date' , example: '2020-03-12'),
+                    new OA\Property(
+                    property: 'notes',
+                    type: 'array',
+                    items: new OA\Items(
+                        type: 'string',
+                        example: 'I carried it for a week, it gets stronger'
+                    )
+                ),
+                ],
+            ),
+        ),
+        
+        responses: [
+            new OA\Response(response: 201, description: 'Symptom created'),
+            new OA\Response(response: 401, description: 'Unauthenticated'),
+        ]
+    )]
+
     public function store(StoreSymptomRequest $request)
     {
 
@@ -42,6 +89,22 @@ class SymptomController extends Controller
     /**
      * Display the specified resource.
      */
+
+    #[OA\Get(
+        path: '/symptoms/{symptom}',
+        summary: 'Get one symptoms for the authenticated user',
+        security: [['sanctum' => []]],
+        tags: ['Symptoms'],
+        parameters: [
+            new OA\Parameter(name: 'symptom', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'List of user symptoms'),
+            new OA\Response(response: 401, description: 'Unauthenticated'),
+            new OA\Response(response: 404, description: 'Symptoms not found'),
+        ]
+    )]
+
     public function show(string $id)
     {
         $symptom = Symptom::find($id);
@@ -55,6 +118,41 @@ class SymptomController extends Controller
     /**
      * Update the specified resource in storage.
      */
+
+    #[OA\Put(
+        path: '/symptoms/{symptom}',
+        summary: 'Update a symptom',
+        security: [['sanctum' => []]],
+        tags: ['Symptoms'],
+        parameters: [
+            new OA\Parameter(name: 'symptom', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+        ],
+        requestBody: new OA\RequestBody(
+            required: false,
+            content: new OA\JsonContent(
+                properties: [
+                    new OA\Property(property: 'name', type: 'string', example: 'itches'),
+                    new OA\Property(property: 'severity', type: 'string', enum:['mild', 'moderate', 'severe'], example: 'mild'),
+                    new OA\Property(property: 'description', type: 'string', example: '.....'),
+                    new OA\Property(property: 'date_recorded', type: 'string', format:'date' , example: '2020-03-12'),
+                    new OA\Property(
+                    property: 'notes',
+                    type: 'array',
+                    items: new OA\Items(
+                        type: 'string',
+                        example: 'I carried it for a week, it gets stronger'
+                    )
+                ),
+                ],
+            ),
+        ),
+        
+        responses: [
+            new OA\Response(response: 201, description: 'Symptom Updated'),
+            new OA\Response(response: 401, description: 'Unauthenticated'),
+        ]
+    )]
+
     public function update(StoreSymptomRequest $request, string $id)
     {
         $symptom = Symptom::find($id);
@@ -70,6 +168,22 @@ class SymptomController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+
+     #[OA\Delete(
+        path: '/symptoms/{symptom}',
+        summary: 'Get one symptoms for the authenticated user',
+        security: [['sanctum' => []]],
+        tags: ['Symptoms'],
+        parameters: [
+            new OA\Parameter(name: 'symptom', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'List of user symptoms'),
+            new OA\Response(response: 401, description: 'Unauthenticated'),
+            new OA\Response(response: 404, description: 'Symptoms not found'),
+        ]
+    )]
+
     public function destroy(string $id)
     {
         $symptom = Symptom::find($id);
@@ -80,6 +194,18 @@ class SymptomController extends Controller
         return $this->success(null, "symptom deleted");
     }
 
+     #[OA\Post(
+        path: '/ai/health-advice',
+        summary: 'Get ai Health advice',
+        security: [['sanctum' => []]],
+        tags: ['AI'],
+        responses: [
+            new OA\Response(response: 200, description: 'List of user symptoms'),
+            new OA\Response(response: 401, description: 'Unauthenticated'),
+            new OA\Response(response: 404, description: 'Symptoms not found'),
+        ]
+    )]
+    
     public function ai() {
             $symptom = auth()->user()->symptoms()->latest()->first();
 

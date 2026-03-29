@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\Api\DoctorController;
+use App\Http\Controllers\api\SwaggerTestConctoller;
 use App\Http\Controllers\Api\SymptomController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,3 +27,5 @@ Route::get('/doctors/search', [DoctorController::class, 'search'])->middleware('
 Route::get('/doctors/{id}', [DoctorController::class, 'show'])->middleware('auth:sanctum');
 
 Route::get('/AiAssistant', [SymptomController::class, 'ai'])->middleware('auth:sanctum');
+
+Route::get('/test', [SwaggerTestConctoller::class, 'index']);

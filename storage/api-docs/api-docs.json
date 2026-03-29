@@ -1,0 +1,741 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "salus documentation",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/api"
+        }
+    ],
+    "paths": {
+        "/appointments": {
+            "get": {
+                "tags": [
+                    "appointments"
+                ],
+                "summary": "Get all appointments for the authenticated user",
+                "operationId": "b8c7b364f8969997096bb5cc471278c2",
+                "responses": {
+                    "200": {
+                        "description": "List of user appointments"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "appointments not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "appointments"
+                ],
+                "summary": "Update appointment",
+                "description": "Update the specified resource in storage.",
+                "operationId": "b7b569d19bf3887d68d3ab5f9a3dfddc",
+                "parameters": [
+                    {
+                        "name": "appointment",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "appointment_date",
+                                    "doctor_id"
+                                ],
+                                "properties": {
+                                    "appointment_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2020-03-12"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "pending or confirmed",
+                                        "enum": [
+                                            "pending",
+                                            "confirmed",
+                                            "cancelled"
+                                        ]
+                                    },
+                                    "doctor_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "appointment Updated"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "appointments"
+                ],
+                "summary": "Create a new appointment",
+                "description": "Store a newly created resource in storage.",
+                "operationId": "a115e378e7f96db9e8a6537cbdd95921",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "appointment_date",
+                                    "doctor_id"
+                                ],
+                                "properties": {
+                                    "appointment_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2020-03-12"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "pending or confirmed",
+                                        "enum": [
+                                            "pending",
+                                            "confirmed",
+                                            "cancelled"
+                                        ]
+                                    },
+                                    "doctor_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Symptom created"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/appointments/{appointment}": {
+            "get": {
+                "tags": [
+                    "appointments"
+                ],
+                "summary": "Get one appointments for the authenticated user",
+                "description": "Display the specified resource.",
+                "operationId": "a38fbb7f74ce31ce3a372d53c082515b",
+                "parameters": [
+                    {
+                        "name": "appointment",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of user appointment"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "appointment not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "appointments"
+                ],
+                "summary": "Delete appointments for the authenticated user",
+                "description": "Remove the specified resource from storage.",
+                "operationId": "340a1d1e4b71864ef4d72553cf13c68a",
+                "parameters": [
+                    {
+                        "name": "appointment",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of user appointment"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "appointment not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Create a new account",
+                "operationId": "c758f54bda9079f9ebe361693213d40c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "chahd"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "chahd@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "user created"
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "logged in",
+                "operationId": "1da689c688cc418e88f9e9d668f01b16",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "chahd@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "user created"
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "logged out",
+                "operationId": "e8863ea5beee6c0b123d63b0aba831b0",
+                "responses": {
+                    "201": {
+                        "description": "user created"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/doctors": {
+            "get": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "Get all doctors",
+                "operationId": "947a21b8ae7d72b24b902600c8e443c9",
+                "responses": {
+                    "200": {
+                        "description": "List of doctors"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "doctors not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/doctors/{id}": {
+            "get": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "Get all doctors",
+                "operationId": "dd020a547256bc4a1307488115755404",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "fetch doctor"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "doctors not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/doctors/search": {
+            "get": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "search for doctors",
+                "operationId": "5863ead716cd4eadef7515b492299639",
+                "parameters": [
+                    {
+                        "name": "specialty",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "General Medicine"
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "rabat"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of doctors"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "doctors not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/test": {
+            "get": {
+                "tags": [
+                    "test"
+                ],
+                "summary": "test endpoint",
+                "operationId": "1e343dcbb00b28eb780e3f11212ad371",
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    }
+                }
+            }
+        },
+        "/symptoms": {
+            "get": {
+                "tags": [
+                    "Symptoms"
+                ],
+                "summary": "Get all symptoms for the authenticated user",
+                "description": "Display a listing of the resource.",
+                "operationId": "2e85564776df45ed79b7e3b8d668674a",
+                "responses": {
+                    "200": {
+                        "description": "List of user symptoms"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "Symptoms not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Symptoms"
+                ],
+                "summary": "Create a new symptom",
+                "description": "Store a newly created resource in storage.",
+                "operationId": "b4bb118e280800fed14f305fd87b1e33",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "severity",
+                                    "date_recorded"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "itches"
+                                    },
+                                    "severity": {
+                                        "type": "string",
+                                        "example": "mild",
+                                        "enum": [
+                                            "mild",
+                                            "moderate",
+                                            "severe"
+                                        ]
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "....."
+                                    },
+                                    "date_recorded": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2020-03-12"
+                                    },
+                                    "notes": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "I carried it for a week, it gets stronger"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Symptom created"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/symptoms/{symptom}": {
+            "get": {
+                "tags": [
+                    "Symptoms"
+                ],
+                "summary": "Get one symptoms for the authenticated user",
+                "description": "Display the specified resource.",
+                "operationId": "6201d2d3b951ed650aecbe181220ef09",
+                "parameters": [
+                    {
+                        "name": "symptom",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of user symptoms"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "Symptoms not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Symptoms"
+                ],
+                "summary": "Update a symptom",
+                "description": "Update the specified resource in storage.",
+                "operationId": "53a96dd028297f2a2354086cbdabff9f",
+                "parameters": [
+                    {
+                        "name": "symptom",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "itches"
+                                    },
+                                    "severity": {
+                                        "type": "string",
+                                        "example": "mild",
+                                        "enum": [
+                                            "mild",
+                                            "moderate",
+                                            "severe"
+                                        ]
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "....."
+                                    },
+                                    "date_recorded": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2020-03-12"
+                                    },
+                                    "notes": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "I carried it for a week, it gets stronger"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Symptom Updated"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Symptoms"
+                ],
+                "summary": "Get one symptoms for the authenticated user",
+                "description": "Remove the specified resource from storage.",
+                "operationId": "ab0fd4f956bb2638c42e62be3ec5e94f",
+                "parameters": [
+                    {
+                        "name": "symptom",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of user symptoms"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "Symptoms not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/ai/health-advice": {
+            "post": {
+                "tags": [
+                    "AI"
+                ],
+                "summary": "Get ai Health advice",
+                "operationId": "37d03d62505b7c97872a33b2837e285b",
+                "responses": {
+                    "200": {
+                        "description": "List of user symptoms"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "Symptoms not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "sunctum": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "appointments",
+            "description": "appointments"
+        },
+        {
+            "name": "Auth",
+            "description": "Auth"
+        },
+        {
+            "name": "doctors",
+            "description": "doctors"
+        },
+        {
+            "name": "test",
+            "description": "test"
+        },
+        {
+            "name": "Symptoms",
+            "description": "Symptoms"
+        },
+        {
+            "name": "AI",
+            "description": "AI"
+        }
+    ]
+}
